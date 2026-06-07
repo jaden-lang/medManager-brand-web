@@ -7,7 +7,8 @@ const props = defineProps({
 })
 
 // 對應 studio-medmanager 的 homePage。無資料一律顯示「-」，不使用假資料。
-// 註：medmanager 的 homePage 無「標籤 / 次要按鈕」欄位，故固定顯示「-」。
+// 對應欄位：heroBadge / heroTitle / heroSubtitle / heroCtaText / heroCtaLink /
+// heroSecondaryCtaText / heroSecondaryCtaUrl / highlights[]。
 const badge = computed(() => t(props.data?.heroBadge) || '-')
 const title = computed(() => t(props.data?.heroTitle) || '-')
 const subtitle = computed(() => t(props.data?.heroSubtitle) || '-')

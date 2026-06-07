@@ -1,22 +1,32 @@
 import { client } from './client'
 
 // 首頁（單例）：對應 studio-medmanager 的 homePage schema
-// 注意：欄位名稱以 studio-medmanager/schemaTypes/homePage.ts 為準。
-// 畫面上若有區塊在此 schema 沒有對應欄位（例：Hero 標籤、為什麼選我們、
-// 使用流程、CTA），前端會顯示「-」，詳見 SANITY內容建置指南.md。
+// 欄位名稱以 studio-medmanager/schemaTypes/homePage.ts 為準；各區塊（Hero、服務、
+// 為什麼選我們、方案、最新消息、使用流程、CTA）皆已有對應欄位，未填者前端顯示「-」。
 export const homePageQuery = /* groq */ `
 *[_type == "homePage"][0]{
-  heroTitle, heroSubtitle, heroImage,
+  heroBadge, heroTitle, heroSubtitle, heroImage,
   heroCtaText, heroCtaLink,
+  heroSecondaryCtaText, heroSecondaryCtaUrl,
   highlights[]{value, label},
 
-  servicesTitle,
-  featuredServices[]->{_id, title, summary, image},
+  servicesEyebrow, servicesTitle, servicesSubheading,
+  featuredServices[]->{_id, title, summary, image, icon},
 
-  plansTitle,
-  featuredPlans[]->{_id, title, price, priceUnit, summary, features, isFeatured},
+  whyEyebrow, whyHeading, whyBody, whyCtaText, whyCtaUrl,
+  whyPoints[]{title, description},
 
-  newsTitle, showLatestNews
+  plansEyebrow, plansTitle, plansSubheading, plansNote,
+  featuredPlans[]->{_id, title, price, priceUnit, summary, features, isFeatured, ctaText, ctaUrl},
+
+  newsEyebrow, newsTitle, showLatestNews,
+
+  processEyebrow, processHeading,
+  processSteps[]{stepNo, title, description},
+
+  ctaHeading, ctaSubtitle,
+  ctaPrimaryText, ctaPrimaryUrl,
+  ctaSecondaryText, ctaSecondaryUrl
 }
 `
 

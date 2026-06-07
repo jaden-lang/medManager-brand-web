@@ -6,9 +6,8 @@ const props = defineProps({
   data: { type: Object, default: null },
 })
 
-// 注意：studio-medmanager 的 homePage 目前「沒有」行動呼籲（CTA）區塊的對應欄位，
-// 因此整段固定顯示「-」。若要可在後台填寫，需於 medmanager 的 schema 新增對應欄位
-// （可參考 jdnsite 的 ctaHeading/ctaSubtitle/ctaPrimaryText… 設計）。
+// 對應 medmanager：homePage 的 ctaHeading / ctaSubtitle / ctaPrimaryText /
+// ctaPrimaryUrl / ctaSecondaryText / ctaSecondaryUrl。無資料一律顯示「-」。
 const heading = computed(() => t(props.data?.ctaHeading) || '-')
 const subtitle = computed(() => t(props.data?.ctaSubtitle) || '-')
 const primaryText = computed(() => t(props.data?.ctaPrimaryText) || '-')

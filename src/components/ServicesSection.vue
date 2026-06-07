@@ -6,9 +6,10 @@ const props = defineProps({
   data: { type: Object, default: null },
 })
 
-// 對應 medmanager：homePage.servicesTitle + featuredServices[]->service。
-// 無資料一律顯示「-」。註：medmanager 的 service 無 icon 欄位，卡片圖示固定用 shield；
-// 服務描述取自 service.summary。小標 / 副標在 medmanager 無對應欄位，顯示「-」。
+// 對應 medmanager：homePage.servicesEyebrow / servicesTitle / servicesSubheading
+// + featuredServices[]->service。無資料一律顯示「-」。
+// 卡片圖示取自 service.icon（calendar / document / family / shield，未選用預設盾牌）；
+// 服務描述取自 service.summary。
 const eyebrow = computed(() => t(props.data?.servicesEyebrow) || '-')
 const heading = computed(() => t(props.data?.servicesTitle) || '-')
 const subheading = computed(() => t(props.data?.servicesSubheading) || '-')

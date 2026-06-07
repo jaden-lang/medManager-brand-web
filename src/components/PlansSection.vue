@@ -6,9 +6,10 @@ const props = defineProps({
   data: { type: Object, default: null },
 })
 
-// 對應 medmanager：homePage.plansTitle + featuredPlans[]->plan。無資料一律顯示「-」。
-// 欄位對照：name←plan.title、unit←plan.priceUnit、description←plan.summary、featured←plan.isFeatured。
-// 小標 / 副標 / 備註、方案按鈕文字與連結在 medmanager 無對應欄位，顯示「-」（按鈕連結退回 #）。
+// 對應 medmanager：homePage 的 plansEyebrow / plansTitle / plansSubheading / plansNote
+// + featuredPlans[]->plan。無資料一律顯示「-」。
+// 欄位對照：name←plan.title、unit←plan.priceUnit、description←plan.summary、
+// featured←plan.isFeatured、ctaText←plan.ctaText、ctaUrl←plan.ctaUrl（未填退回 #）。
 const eyebrow = computed(() => t(props.data?.plansEyebrow) || '-')
 const heading = computed(() => t(props.data?.plansTitle) || '-')
 const subheading = computed(() => t(props.data?.plansSubheading) || '-')

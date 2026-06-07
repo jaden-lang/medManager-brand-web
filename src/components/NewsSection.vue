@@ -11,7 +11,7 @@ const props = defineProps({
 // 後台 showLatestNews 關閉時隱藏整個區塊（未設定時預設顯示）
 const visible = computed(() => props.data?.showLatestNews !== false)
 
-// medmanager 的 homePage 無 newsEyebrow 欄位，固定顯示「-」（詳見建置指南）
+// 對應 medmanager：homePage.newsEyebrow / newsTitle（未填顯示「-」）
 const eyebrow = computed(() => t(props.data?.newsEyebrow) || '-')
 const heading = computed(() => t(props.data?.newsTitle) || '-')
 

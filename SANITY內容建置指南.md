@@ -41,11 +41,18 @@
 
 ## 2. 服務項目 `service`（清單 · 先建 4 筆）
 
-對應畫面：服務介紹區四張卡片。前端只用到 `title`（標題）與 `summary`（卡片描述）。
+對應畫面：服務介紹區四張卡片。前端用到 `title`（標題）、`summary`（卡片描述）與 `icon`（卡片圖示）。
 
-> ⚠️ `service` schema **沒有 icon 欄位**，所以四張卡片圖示一律是預設的「盾牌」圖。
+> ✅ `service` schema 已新增 **卡片圖示 `icon`**（下拉：日曆 `calendar` / 文件 `document` / 家庭 `family` / 盾牌 `shield`）；未選擇時使用預設盾牌圖。
 > 卡片描述取自 **服務簡介 `summary`**（不是「詳細說明 description」）。
 > `slug` 為必填，可用標題自動產生；`order` 控制排序（數字小在前）。
+
+| # | 服務名稱 `title` | 建議圖示 `icon` |
+|---|---|---|
+| 1 | `線上預約健檢` | 日曆 `calendar` |
+| 2 | `數位健檢報告` | 文件 `document` |
+| 3 | `家庭子帳號` | 家庭 `family` |
+| 4 | `監護人陪同服務` | 盾牌 `shield` |
 
 | # | 服務名稱 `title` | 服務簡介 `summary` |
 |---|---|---|
@@ -60,8 +67,8 @@
 
 對應畫面：方案介紹區三張價格卡。
 
-> 欄位對照（前端 ← 後台）：方案名 ← `title`、計價單位 ← `priceUnit`、方案簡述 ← `summary`、主打 ← `isFeatured`。
-> ⚠️ `plan` schema **沒有「按鈕文字 / 按鈕連結」欄位**，所以卡片按鈕文字會顯示「-」、連結退回 `#`。
+> 欄位對照（前端 ← 後台）：方案名 ← `title`、計價單位 ← `priceUnit`、方案簡述 ← `summary`、主打 ← `isFeatured`、按鈕文字 ← `ctaText`、按鈕連結 ← `ctaUrl`。
+> ✅ `plan` schema 已新增 **按鈕文字 `ctaText`** 與 **按鈕連結 `ctaUrl`**（未填則按鈕文字顯示「-」、連結退回 `#`）。
 > `slug` 為必填；`order` 控制排序。
 
 | # | 方案名稱 `title` | 價格 `price` | 計價單位 `priceUnit` | 方案簡介 `summary` | 主打 `isFeatured` |
@@ -75,6 +82,14 @@
 - 免費會員：`瀏覽合作診所`、`基本健檢預約`、`健檢報告查看`、`公告與通知`
 - 付費會員：`免費會員所有功能`、`完整健檢方案`、`優先預約時段`、`就醫證明與帳務管理`、`可加購子帳號`
 - 家庭方案：`付費會員所有功能`、`多位家庭子帳號`、`監護人陪同服務`、`家庭健康統一管理`
+
+**按鈕文字 `ctaText` / 連結 `ctaUrl`（每筆方案各自填）**
+
+| # | 方案 | 按鈕文字 `ctaText` | 按鈕連結 `ctaUrl` |
+|---|---|---|---|
+| 1 | 免費會員 | `免費註冊` | `/register` |
+| 2 | 付費會員 | `立即升級` | `/register` |
+| 3 | 家庭方案 | `了解家庭方案` | `/register` |
 
 ---
 
@@ -138,32 +153,92 @@
 
 | 後台欄位 | 對應畫面 | 建議填入值 |
 |---|---|---|
+| 消息區塊小標 `newsEyebrow` | 區塊大標上方小字 | `NEWS` |
 | 消息區塊標題 `newsTitle` | 區塊大標 | `最新消息` |
 | 顯示最新消息區塊 `showLatestNews` | 整段顯示開關 | **開啟**（關閉則前端不顯示此區） |
 
-> 小標（eyebrow）在 medmanager 無對應欄位，固定顯示「-」（見第 5 節）。
-
 ---
 
-## 5. 目前畫面上「沒有對應欄位」的區塊 ⚠️
+## 5. 補充區塊欄位（原「沒有對應欄位」者，現已新增）✅
 
-下列區塊/元素，brand-web 畫面上有，但 **studio-medmanager 的 schema 目前沒有對應欄位**，因此**無論如何都會顯示「-」**，不是漏填、也無處可填：
+下列區塊/元素先前在 brand-web 畫面上有、但 medmanager 沒有對應欄位（永遠顯示「-」）。
+現已在 `homePage.ts` / `service.ts` / `plan.ts` **補上欄位並接到前端**，照下表填寫並 **Publish** 即會帶出內容；不填仍顯示「-」。
 
-| 畫面區塊 / 元素 | 缺少的欄位 |
+> `service.icon`、`plan.ctaText` / `plan.ctaUrl` 已併入第 2、3 節說明；以下為 `homePage` 新增的區塊欄位。
+
+### 5-1 首屏 Hero（補充欄位，群組「首屏 Hero」）
+
+| 後台欄位 | 型別 | 對應畫面 | 建議填入值（中文） |
+|---|---|---|---|
+| 主視覺標籤 `heroBadge` | 多語字串 | 大標題上方膠囊標籤 | `全新上線` |
+| 次要按鈕文字 `heroSecondaryCtaText` | 多語字串 | 主按鈕旁次要按鈕 | `查看方案` |
+| 次要按鈕連結 `heroSecondaryCtaUrl` | 字串 | 次要按鈕連結 | `#plans` |
+
+### 5-2 服務介紹（補充欄位，群組「服務介紹」）
+
+| 後台欄位 | 型別 | 對應畫面 | 建議填入值 |
+|---|---|---|---|
+| 服務區塊小標 `servicesEyebrow` | 多語字串 | 大標上方小字 | `SERVICES` |
+| 服務區塊副標 `servicesSubheading` | 多語長文字 | 大標下方說明 | `從線上預約到報告管理，一個帳號完成所有健檢流程。` |
+
+### 5-3 為什麼選我們（新群組「為什麼選我們」）
+
+| 後台欄位 | 型別 | 對應畫面 | 建議填入值 |
+|---|---|---|---|
+| 小標 `whyEyebrow` | 多語字串 | 大標上方小字 | `WHY US` |
+| 標題 `whyHeading` | 多語字串 | 區塊大標 | `為什麼選擇守護健檢` |
+| 說明 `whyBody` | 多語長文字 | 標題下說明 | `我們把健檢的預約、報告、家庭管理整合在同一平台，讓你不再為紙本與電話往返煩心。` |
+| 按鈕文字 `whyCtaText` | 多語字串 | 區塊按鈕 | `了解更多` |
+| 按鈕連結 `whyCtaUrl` | 字串 | 按鈕連結 | `/about` |
+
+**重點項目 `whyPoints`（陣列，逐筆新增 `title` + `description`）**
+
+| 標題 `title` | 說明 `description` |
 |---|---|
-| 首屏 Hero 上方小標籤 | `heroBadge` |
-| 首屏 Hero 次要按鈕（查看方案） | `heroSecondaryCtaText` / `heroSecondaryCtaUrl` |
-| 服務區塊 小標、副標 | `servicesEyebrow` / `servicesSubheading` |
-| 服務卡片 圖示 | `service.icon`（固定用盾牌圖） |
-| **為什麼選我們** 整段 | `whyEyebrow` / `whyHeading` / `whyBody` / `whyCtaText` / `whyCtaUrl` / `whyPoints[]` |
-| 方案區塊 小標、副標、備註 | `plansEyebrow` / `plansSubheading` / `plansNote` |
-| 方案卡片 按鈕文字、連結 | `plan.ctaText` / `plan.ctaUrl` |
-| 最新消息 小標 | `newsEyebrow` |
-| **使用流程** 整段 | `processEyebrow` / `processHeading` / `processSteps[]` |
-| **行動呼籲 CTA** 整段 | `ctaHeading` / `ctaSubtitle` / `ctaPrimaryText…` |
+| `一站式整合` | `預約、報告、帳務、家庭成員，全部集中在同一個帳號管理。` |
+| `家庭共用` | `母帳號統一管理子帳號，全家健康一目了然。` |
+| `數位化報告` | `健檢報告與就醫證明雲端保存，隨時查閱不遺失。` |
+| `安心陪同` | `可為長輩安排監護人陪同就診，看診更放心。` |
 
-**若要讓上述區塊也能在後台填寫**，需在 `studio-medmanager/schemaTypes/homePage.ts`（及 `service.ts` / `plan.ts`）**新增對應欄位**。
-完整可參考的欄位設計，就在隔壁的 `jdnsite` 後台 —— 它的 `homePage / service / plan` 已含 hero 標籤、為什麼選我們、使用流程、CTA、方案按鈕等全部欄位，可整段移植過來。
+### 5-4 方案介紹（補充欄位，群組「方案介紹」）
+
+| 後台欄位 | 型別 | 對應畫面 | 建議填入值 |
+|---|---|---|---|
+| 方案區塊小標 `plansEyebrow` | 多語字串 | 大標上方小字 | `PLANS` |
+| 方案區塊副標 `plansSubheading` | 多語長文字 | 大標下方說明 | `從免費體驗到家庭方案，依需求彈性選擇。` |
+| 方案區塊備註 `plansNote` | 多語長文字 | 價格卡下方小字 | `所有方案皆可隨時升級或取消，無綁約。` |
+
+（方案卡片的按鈕文字 / 連結請見第 3 節 `plan.ctaText` / `plan.ctaUrl`。）
+
+### 5-5 使用流程（新群組「使用流程」）
+
+| 後台欄位 | 型別 | 對應畫面 | 建議填入值 |
+|---|---|---|---|
+| 小標 `processEyebrow` | 多語字串 | 大標上方小字 | `HOW IT WORKS` |
+| 標題 `processHeading` | 多語字串 | 區塊大標 | `四步驟，開始健康管理` |
+
+**流程步驟 `processSteps`（陣列，逐筆新增 `stepNo` + `title` + `description`）**
+
+| 編號 `stepNo` | 標題 `title` | 說明 `description` |
+|---|---|---|
+| `01` | `註冊帳號` | `免費註冊，立即建立你的健康帳號。` |
+| `02` | `挑選方案` | `依需求選擇免費 / 付費 / 家庭方案。` |
+| `03` | `線上預約` | `瀏覽合作診所，挑選項目與時段完成預約。` |
+| `04` | `管理報告` | `健檢報告與紀錄集中管理，隨時查閱。` |
+
+### 5-6 行動呼籲 CTA（新群組「行動呼籲」）
+
+| 後台欄位 | 型別 | 對應畫面 | 建議填入值 |
+|---|---|---|---|
+| 標題 `ctaHeading` | 多語字串 | CTA 區大標 | `準備好開始了嗎？` |
+| 副標 `ctaSubtitle` | 多語長文字 | 大標下說明 | `免費註冊，立即體驗一站式健檢會員服務。` |
+| 主要按鈕文字 `ctaPrimaryText` | 多語字串 | 主要按鈕 | `免費註冊` |
+| 主要按鈕連結 `ctaPrimaryUrl` | 字串 | 主要按鈕連結 | `/register` |
+| 次要按鈕文字 `ctaSecondaryText` | 多語字串 | 次要按鈕 | `聯絡我們` |
+| 次要按鈕連結 `ctaSecondaryUrl` | 字串 | 次要按鈕連結 | `/contact` |
+
+> 最新消息小標 `newsEyebrow` 已併入第 4-4 節。
+> 仍無對應欄位者：首屏右側示意卡為固定樣式（不吃 `heroImage`）；`siteSettings` 的 `logo / phone / email / address / socialLinks` 前端尚無顯示位置。
 
 ---
 
